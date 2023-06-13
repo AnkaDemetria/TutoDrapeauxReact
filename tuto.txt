@@ -1,0 +1,180 @@
+BASES REACT
+
+Présentation & Installation
+Présentation
+Tout est composant
+1 composant = 1 fonctionnalité
+import….from…
+fonction()
+return(JSX): rendu visuel (comme du HTML avec des classes)
+commentaire: “ctrl + /”
+
+Installation
+Dans la console: (contrôle %)
+cd desktop
+node -v
+npm -v (pour connaître les versions node et npm)
+
+npx create-react-app nom-projet (pour créer un dossier )
+
+ça va créer le dossier react avec les fichiers suivants:
+node.module = toutes nos bibliothèques
+gitignore: tout ce qu’on ne veut pas voir sur github dont les node.modules
+package.json: on a les versions de nos projets, toutes les dépendances ajoutées au projet
+src: source, c ‘est là dedans qu’on va coder
+public: on peut y stocker des images, des icônes
+
+On a besoin de compiler tout ce qui est dans la bibliothèque et tout le src, donc on fait un npm start pour voir notre projet pas un go live
+
+Dans ces fichiers on va supprimer certaines choses pour démarrer sur des fichiers propres:
+-logo512
+-manifest .json
+-index.html:fichier lu le premier toujours, ça va être injecté dans root
+on peut supprimer les commentaires du fichier
+on peut enlever le manifest apple
+changer le titre
+react est très apprécié par les robots de google pr le référencement, les sites en react sont très rapides et sont bien conçus donc très performants
+-package.json: eslink à supprimer car bug
+src: on supprime tout sauf App.js et Index.js 
+et dans App.js on supprime le contenu
+et dans index.js: on supprime les webvitals et  import webvitals
+
+Si on a toujours un bug, on quitte le terminal (contrôle c) et on relance (npm start)
+
+npm start 
+installations des bons plugins (pour coder un peu plus vite) :simple react snippets, reactjs code snippets et mithril emmet
+
+App est le composant le plus haut de l’application et de App va découler toute l’application
+
+Installations de bibliothèques
+
+Installations extensions
+react developer tools: à télécharger et permet de voir dans la console à la place de console on va dans component et on verra tous les composants de l’application
+
+Router & Navigation 
+On va se créer un router dans App.js
+on importe nos bibliothèques
+on va créer nos pages, nos composants: dans la page on tape: rsc et entrée
+NavLink: est une ancre en react
+
+On peut mettre du style avec sass
+
+On met une classe nav activ à laquelle on a injecté du CSS (soulignement bleu quand on clique sur le lien de la barre de navigation)
+
+
+Les images
+Le logo
+On va créer un composant logo, il faut ranger les images à différents endroits 
+Les images importées depuis la balise img sont accessibles dans "public" donc on met un chemin relatif comme si les images étaient dans le dossier “public”: ./nom de l’image
+Sinon pour les background, il faut le vrai chemin (../ pour sortir du dossier etc)
+
+API 
+
+
+Axios (useEffect, useState) 1:13:13 
+npm i axios: pour aller chercher nos données
+AXIOS est une technologie qui permet de faire des fetch rapides avec un use effect et une fonction call back, ça rappelle le bout de code si jamais il se passe qqch  dans []
+on lui dit, va me chercher l’axios et ramène moi le résultat (qui sera un array de données), on utilise axios au lieu du fetch, (il transfère le fichier json en fichier exploitable sans passer par json)
+
+useEffect, useState sont des composants de react, ce sont des hooks
+avec l extension on n’a plus besoin de console log mais on voit dans components nos composants useEffect (=joue moi ce composant dès qu’on le crée)et useState
+
+
+- Map & Props 1:31:12 - 
+
+
+
+Il faut que cards connaisse countries, donc on va lui donner des props
+un composant parent peut donner les données qu’il veut à un composant enfant
+mais un enfant ne peut pas les redonner  à son parent
+
+props:faire circuler des données d’un composant à un autre en donnant une clé et une valeur entre accolades
+
+map: va aller chercher le tableau autant de fois qu’il y a de choses dans le tableau
+
+destructuring: modifier les props , en javascript en passant les props de la fonction map entre accolades
+const card = ({ country}) =>
+
+On envoie des données dynamiques en javascript entre accolades, le drapeau, la capitale et la population (avec séparateur de milliers: toLocaleString)
+
+Les Filtres (slice, filter, sort)
+Comment trier les choses
+
+
+            <ul className='radio-container'>
+                <input type="range" min="1" max="250"/>
+            </ul>
+            <ul>
+
+
+Limiter affichage à un certain nombre: méthode slice 
+Ici: afficher de 0 à 5 pays , méthode slice à insérer avant la méthode map
+
+
+            <ul>
+            {data.slice(0,5).map((country, index) => (
+                <Card key={index} country={country} />
+            ))}
+            </ul>
+
+Puis avec rangeValue (qu’on définit avant comme constante en démarrant à 36 donc affichage de 36 en 36 pays):
+    const [rangeValue, setRangeValue] = useState(36);
+
+
+
+            <ul>
+            {data.slice(0, rangeValue).map((country, index) => (
+                <Card key={index} country={country} />
+            ))}
+            </ul>
+
+Puis après on n’a plus qu’à changer rangeValue et setRangeValue car react surveille sans arrêt l’évolution des variables car c’est dans l’état du composant 
+DONC on met par défaut la valeur de al variable qui sera rangeValue
+Donc on lui dit quand tu changes”on change” (créer un évenement react: onchange), tu modifies la valeur de rangeValue
+En react, il faut récupérer l’évenement
+
+        <div className='countries'>
+            <ul className='radio-container'>
+                <input type="range"
+                min="1"
+                max="250"
+                defaultValue={rangeValue}
+                onChange={(e)=> setRangeValue(e.target.value)}
+                />
+            </ul>
+            <ul>
+            {data.slice(0, 12).map((country, index) => (
+                <Card key={index} country={country} />
+
+
+Base de données avec input
+Pour lister en fonction des continents
+On va se faire une base de données pour lister les pays: avec une constante en js(tableau de 5 éléments avec une chaine de caractère) et on fait un map
+ puis on crée des input (li)de type li pour lister les continents et on les liste avec leur label
+
+                {radios.map((continent) =>
+                <li>
+                    <input type="radio" id={continent} />
+                    <label htmlFor= {continent}>{continent}</label>
+                </li>
+
+On ajoute un nom pour ne pouvoir choisir qu’un li
+name="continentRadio" />
+
+Il faut se stocker: quand l utilisateur clique sur oceanie, on stocke dans une boite la valeur de Océanie
+on crée une variable selectedRadio et rajouter un évenement sur les input
+
+Dans setSelectedRadio, on a réussi à stocker le nom du continent que l’utilisateur veut voir quand il clique sur un drapeau
+
+On va faire un filtre avant le slice et avant le map,  filter()
+chaque événement individuellement va être filtré quand on sélectionne un continent
+
+On peut classer  avec sort(a,b)
+On peut classer les pays du plus peuplé au moins peuplé
+
+On peut arrêter le filtre
+pour revenir à tous les pays du monde et enlever l input de type filter
+on doit se faire une petite interface: est ce que selectedRadio
+
+
+
